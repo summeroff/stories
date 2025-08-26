@@ -1,0 +1,2 @@
+# stories
+Collections of stories
