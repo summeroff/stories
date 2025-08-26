@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A Life, Partially Redacted</title>
+<style>
+  :root { --paper:#fff; --ink:#111; --edge:#c8c8c8; --bg:#f6f6f6; }
+  html,body{margin:0;padding:0;background:var(--bg);font-family: "Courier New", Courier, monospace;color:var(--ink);}
+  .doc{max-width:900px;margin:4rem auto;background:var(--paper);box-shadow:0 20px 40px rgba(0,0,0,.06);border:1px solid var(--edge);}
+  .hdr{display:flex;justify-content:space-between;align-items:flex-end;padding:24px 28px;border-bottom:1px dashed var(--edge);}
+  .hdr small{opacity:.7}
+  .stamp{font-weight:700;letter-spacing:.12em;border:2px solid #c00;color:#c00;padding:.25rem .5rem;transform:rotate(-4deg);display:inline-block}
+  .title{padding:20px 28px 0 28px;font-weight:700;font-size:1.25rem;letter-spacing:.08em}
+  .content{padding:10px 28px 28px 28px;line-height:1.6}
+  .section{margin:1.4rem 0;}
+  .sig{margin-top:2rem;border-top:1px dashed var(--edge);padding-top:1rem}
+  /* Redaction */
+  .redact{
+    background:#000;color:transparent;border-radius:2px;
+    padding:0 .45em;display:inline-block;line-height:1em;
+    user-select:none; /* try to prevent easy copy */
+  }
+  .redact::selection{background:#000;}
+  .redact[title]{cursor:help}
+  /* helper to mimic different bar lengths without leaking text */
+  .bar{background:#000;display:inline-block;height:1em;vertical-align:baseline;border-radius:2px}
+  .bar.s{width:2.2em}
+  .bar.m{width:4.2em}
+  .bar.l{width:7em}
+  .bar.xl{width:12em}
+  /* marginal notes */
+  .note{font-size:.9em;opacity:.8}
+</style>
+</head>
+<body>
+<article class="doc" role="document" aria-label="Autobiographical Statement (Sanitized)">
+  <header class="hdr">
+    <div>
+      <div class="stamp">SANITIZED COPY</div><br/>
+      <small>Control: <span class="bar m" aria-hidden="true"></span> / Casefile: <span class="bar s" aria-hidden="true"></span>-<span class="bar s" aria-hidden="true"></span></small>
+    </div>
+    <small>Declassification Review on: <span class="bar m" aria-hidden="true"></span></small>
+  </header>
+
+  <div class="title">PERSONAL HISTORY OF OPERATIVE <span class="bar l" aria-hidden="true"></span></div>
+
+  <section class="content">
+    <p class="section">
+      My name is <span class="redact" aria-label="[REDACTED]">Joseph ███████</span>, though the name on my first baseball mitt was
+      <span class="redact" aria-label="[REDACTED]">not that one</span>. I am writing this at a safehouse in
+      <span class="redact" aria-label="[REDACTED]">[geography omitted by doctor’s orders]</span>, coffee cooling to the temperature of
+      poor decisions. What follows is the truest account I can give, filtered through a condition the Agency physicians
+      call <em>preemptive redaction syndrome</em> - a neurological tick that slaps blackout ink across words my hands suspect
+      might cause trouble. Imagine a conscience with a marker.
+    </p>
+
+    <p class="section">
+      I was born on a Tuesday that smelled like hot asphalt and oranges. Mother kind, ferocious, a librarian who moved
+      like a quiet alarm, taught me that everything important had a call number and a place to return to. Father was a
+      mechanic and a poet until the phone rang too late one night from <span class="redact" aria-label="[REDACTED]">the county line</span>.
+      We drove out in silence, the road shouldering us toward a set of headlights parked wrong, the world rearranged by
+      a driver who had been drinking <span class="redact" aria-label="[REDACTED]">cheap courage</span>. That was my first lesson in
+      classification: there are facts you can hold in daylight and facts that hiss when you touch them.
+    </p>
+
+    <p class="section">
+      In college I studied languages because secrets wear accents. I learned to order coffee in
+      <span class="redact" aria-label="[REDACTED]">two</span> dialects and apologize in
+      <span class="redact" aria-label="[REDACTED]">five</span>. My thesis tracked rumor propagation through transit stations; it read like
+      a love letter to eavesdropping. A visiting lecturer with the posture of a chess piece invited me to a job fair in
+      a hotel ballroom that wasn’t on the hotel’s website. The booth had no logo, only a bowl of peppermints and an
+      application with a question that made my fingers stall: “Describe a time you disappeared.” I wrote,
+      <span class="redact" aria-label="[REDACTED]">I practice once a day</span>.
+    </p>
+
+    <p class="section">
+      Training was months of unlearning: how to see a room as a topology problem; how to make my pulse insist on the
+      correct story; how to smile with the same number of teeth in <span class="redact" aria-label="[REDACTED]">every country</span>.
+      They taught us to treat our own histories like staged apartments, move the furniture often, leave dishes drying so
+      the place looks lived in, hide the real valuables in ugly boxes. On the last day, an instructor slid a file across
+      the table, my alias, my new line of credit, my allergies (invented), my sister (removed). There was a black bar over
+      the name of the handler I would meet in <span class="redact" aria-label="[REDACTED]">the capital</span>. I remember thinking:
+      how considerate, to shield me from what I most needed to know.
+    </p>
+
+    <p class="section">
+      First posting: a consulate with carpets that smelled like old decisions and polite despair. The man I met there
+      answered to <span class="redact" aria-label="[REDACTED]">“Mr. L.”</span> and everyone pretended not to notice the
+      <span class="redact" aria-label="[REDACTED]">burn scar</span> on his wrist shaped like a map of a small country that no longer exists.
+      My tasks were minor variations on curiosity, listen here, misfile there, let the right people underestimate you.
+      I wrote reports so neutral they could have been used to season food. Then came the first time the syndrome
+      interfered. The cable read:
+      “SUBJECT: <span class="redact" aria-label="[REDACTED]">████████</span> CONTACTED AT <span class="redact" aria-label="[REDACTED]">██████</span>;
+      DELIVERED PACKAGE <span class="redact" aria-label="[REDACTED]">███████████</span>.” I swear I typed the details; the bars arrived
+      like thunderheads, my own motor cortex laying down cloud cover. Mr. L. circled the black squares and said,
+      “Kid, you’re either a liability or a prophet.”
+    </p>
+
+    <p class="section">
+      Assignments multiplied. There was a courier run through a market that sold seven kinds of honey and exactly one
+      truth. There was a room over a bakery where my window framed the morning like a surveillance feed. There was a
+      woman who sold <span class="redact" aria-label="[REDACTED]">newspapers</span> and knew everything a city gossiped into the rain
+      gutters. I asked her once why people told her so much. “Because I hand them change,” she said. “Everyone trusts a
+      hand that gives something back.” I haven’t forgotten that. When I proposed to her, yes, that happened, and yes, I
+      meant it, my syndrome struck with comic timing and tragedy’s handwriting. The note read:
+      “Will you <span class="redact" aria-label="[REDACTED]">██████</span> me?” She laughed, then didn’t. I never sent the note.
+    </p>
+
+    <p class="section">
+      Fieldwork teaches you that certainty is a costume. On an operation in
+      <span class="redact" aria-label="[REDACTED]">[city withheld]</span>, I watched a man memorize a phone number by humming it. On
+      another, I carried a shopping bag heavy with what looked like produce and wasn’t. The photo from that day shows me
+      mid-stride, expression set to "tourist,” passing a wall graffiti’d with a joke about patriotism that I still don’t
+      understand. The after-action memo would have cleared three names if not for my blackout reflex: the source
+      <span class="redact" aria-label="[REDACTED]">who risked everything</span>, the officer
+      <span class="redact" aria-label="[REDACTED]">who missed a signal</span>, and the target
+      <span class="redact" aria-label="[REDACTED]">who didn’t look back</span>. Sometimes the bars spare the innocent; sometimes
+      they spare me.
+    </p>
+
+    <p class="section">
+      The doctors hooked my skull to a forest of sensors. “Your amygdala is over-zealous,” one said, as if my fear
+      center were an overachieving intern. They tried therapy, mindfulness, a diet that replaced caffeine with
+      <span class="redact" aria-label="[REDACTED]">warm disappointment</span>. Nothing stopped the self-censor. Eventually a
+      different doctor shrugged in the universal dialect of pragmatists and wrote a note for my personnel file:
+      “Operative displays <em>anticipatory classification</em>. Side effect: auto-redaction. Operational utility:
+      uncertain. Moral utility: intriguing.”
+    </p>
+
+    <p class="section">
+      Here is what I can say without the bars jumping like fish: I believe in the geometry of small kindnesses. I carry
+      a pocket notebook with a list titled PEOPLE I OWE CALLS and another titled THINGS TO FORGIVE. I have failed both
+      lists more than once. I no longer pretend that the work subdivides neatly into right and wrong; mostly it’s right
+      now and wrong later, with paperwork. I have a key on my ring that opens a door in
+      <span class="redact" aria-label="[REDACTED]">a city I miss</span>. I have a scar that looks like a misplaced comma.
+    </p>
+
+    <p class="section">
+      This condition, this blackout pen in my bones, is not mercy and not betrayal. It is a reminder that truth has
+      gradients. The Agency once taught me that secrets save lives; I have learned that sometimes they save
+      <em>selves</em>, the softer, stupider parts that still want to try again tomorrow. If these pages frustrate you,
+      imagine living them. Imagine loving someone in declarative sentences when your verbs turn into
+      <span class="redact" aria-label="[REDACTED]">███████</span>.
+    </p>
+
+    <p class="section">
+      I don’t know how this ends. Maybe with a desk, a garden, and the kind of peace that doesn’t feel like a
+      surveillance state in miniature. Maybe with a bell on a door that rings when she walks in, and I finally say the
+      thing the bars keep swallowing. If so, let the record show I tried to write it here, in black and white, before my
+      nervous system filed it under <span class="redact" aria-label="[REDACTED]">need-to-know</span>.
+    </p>
+
+    <p class="section note">
+      Note to future reviewers: If you are reading this in the wake of something loud, know that most days were quiet.
+      The work, like the heart, specializes in maintenance. On those days my syndrome redacted only the little luxuries:
+      the name of a café, the punchline of a joke, the street where a stray dog decided I was worth escorting home.
+      Perhaps that is the correct scale for secrecy. Perhaps the big things are meant to be said aloud, and the small
+      things protected by a simple, stubborn bar of ink.
+    </p>
+
+    <div class="sig">
+      — Signed: <span class="bar m" aria-hidden="true"></span>, Operative <span class="bar s" aria-hidden="true"></span> •
+      Location: <span class="bar xl" aria-hidden="true"></span> • Date: <span class="bar m" aria-hidden="true"></span>
+    </div>
+  </section>
+</article>
+</body>
+</html>
