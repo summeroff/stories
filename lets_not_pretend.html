@@ -93,7 +93,7 @@
     .divider{height:1px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent); margin:2rem 0}
 
     /* Reveal on scroll */
-    .reveal{opacity:0; transform: translateY(12px); transition: all .8s cubic-bezier(.2,.65,.2,1)}
+    .reveal{opacity:1; transform:none; transition:none}
     .reveal.in{opacity:1; transform:none}
 
     /* Pullquotes */
@@ -123,7 +123,7 @@
     @media (prefers-color-scheme: light) { article .mantra{ background-image: url('assets/breathe-tiles.png'), rgba(0,0,0,.035);} }
 </style>
 </head>
-<body>
+<body class="show-optional">
   
 
   <header class="site">
@@ -154,7 +154,7 @@
       </div>
       <figure class="hero-figure">
         <img alt="Light through smoke — hero cover" src="assets/hero.png">
-        <figcaption>Replace with your own hero image: <code>assets/hero.png</code> (1600×900+). Duotone works best.</figcaption>
+        <figcaption>Light through smoke — hero cover.</figcaption>
       </figure>
     </section>
 
