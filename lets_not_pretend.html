@@ -130,11 +130,6 @@
     <div class="bar">
       <div class="brand">Let’s Not Pretend</div>
       <div class="controls">
-        <span class="chip" id="motion-chip" hidden>Reduced motion</span>
-        <button class="btn" id="toggle-optional" aria-pressed="false" aria-label="Toggle optional visuals">Optional visuals: off</button>
-        <button class="btn" id="toggle-paper" aria-pressed="false" aria-label="Toggle paper texture">Paper texture: off</button>
-        
-        
         <button class="btn" id="toggle-audio" aria-pressed="false" aria-label="Play ambient soundtrack">Play soundtrack</button>
       </div>
     </div>
@@ -200,7 +195,7 @@
       </div>
 
       <figure class="reveal">
-        <img alt="Abstract reef clarity — mid article" src="assets/reef.png" loading="lazy" decoding="async"><svg xmlns='http://www.w3.org/2000/svg' width='1400' height='800'>
+        <img alt="Abstract reef clarity — mid article" src="assets/reef.png" loading="lazy" decoding="async">
 		<figcaption>Clear water beats fog: when you can see, you can steer.</figcaption>
       </figure>
 
@@ -258,15 +253,6 @@
       </div>
     </article>
   </main>
-
-  <footer>
-    <p><strong>Soundtrack.</strong> Place an MP3 at <code>assets/ambient.mp3</code> — a low, warm drone ~5–15 min loop works best. Click “Play soundtrack” above to start it manually.</p>
-    <p><strong>Images.</strong> Replace inline SVG placeholders with your own images in <code>assets/</code>. Aim for subdued duotones and soft texture. Alt text matters.</p>
-    <p><strong>Performance.</strong> Background animation pauses if you disable it, or if the reader prefers reduced motion.</p>
-  </footer>
-
-  <!-- Ambient audio (user gesture required to play) -->
-  <audio id="ambient" preload="none" loop src="assets/ambient.mp3"></audio>
 
   <script>
     // Reduced-motion preference
