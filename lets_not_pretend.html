@@ -9,6 +9,12 @@
   <meta property="og:description" content="An essay about truth, safety, daylight, and the courage to build for heat." />
   <meta property="og:type" content="article" />
   <meta name="theme-color" content="#0f1117" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-512.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-512.png">
+  <link rel="apple-touch-icon" href="assets/icon-512.png">
+  <meta property="og:image" content="assets/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="assets/og.png" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
@@ -34,8 +40,8 @@
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
       line-height:1.7; letter-spacing:.02em;
     }
-    .shader-wrap {position:fixed; inset:0; z-index:-1;}
-    #shader-canvas{width:100%; height:100%; display:block; filter:contrast(105%) saturate(110%);}    
+    /* animated background removed */
+    /* animated background removed */    
 
     header.site{
       position:sticky; top:0; backdrop-filter: blur(8px); background:linear-gradient(to bottom, rgba(15,17,23,.65), rgba(15,17,23,.2) 70%, transparent);
@@ -104,24 +110,31 @@
     @media (prefers-color-scheme: light) { article { background: rgba(255,255,255,.92); border-color: rgba(0,0,0,.06); box-shadow: 0 10px 30px rgba(0,0,0,.08);} }
 
     /* Print */
-    @media print { .shader-wrap, header.site, .hero-figure::after, #shader-canvas, .controls { display:none !important } body{background:#fff; color:#111} a{color:#111} }
-  </style>
+    @media print { /* animated background removed */ body{background:#fff; color:#111} a{color:#111} }
+  .optional{display:none}
+    .show-optional .optional{display:block}
+    body::before{content:""; position:fixed; inset:0; pointer-events:none; background:url('assets/paper.png') repeat; opacity:.08; mix-blend-mode:soft-light; z-index:0; display:none}
+    body.with-paper::before{display:block}
+
+    /* Mantra overrides */
+    article .mantra{ background-image: url('assets/breathe-tiles.png'), linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); background-size: 480px auto, auto; background-blend-mode: soft-light, normal; }
+    article .mantra::before{ background: linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,.05)); }
+    article .mantra .value{ color: var(--fg); }
+    @media (prefers-color-scheme: light) { article .mantra{ background-image: url('assets/breathe-tiles.png'), rgba(0,0,0,.035);} }
+</style>
 </head>
 <body>
-  <div class="shader-wrap" aria-hidden="true">
-    <canvas id="shader-canvas"></canvas>
-  </div>
+  
 
   <header class="site">
     <div class="bar">
       <div class="brand">Let’s Not Pretend</div>
       <div class="controls">
         <span class="chip" id="motion-chip" hidden>Reduced motion</span>
-        <button class="btn" id="toggle-shader" aria-pressed="true" aria-label="Toggle animated background">Background: on</button>
-        <label class="btn" for="intensity" title="Background intensity">
-          <span style="font-weight:700; margin-right:.4rem">Glow</span>
-          <input id="intensity" type="range" min="0" max="1" step="0.01" value="0.3" style="vertical-align:middle">
-        </label>
+        <button class="btn" id="toggle-optional" aria-pressed="false" aria-label="Toggle optional visuals">Optional visuals: off</button>
+        <button class="btn" id="toggle-paper" aria-pressed="false" aria-label="Toggle paper texture">Paper texture: off</button>
+        
+        
         <button class="btn" id="toggle-audio" aria-pressed="false" aria-label="Play ambient soundtrack">Play soundtrack</button>
       </div>
     </div>
@@ -140,7 +153,7 @@
         </div>
       </div>
       <figure class="hero-figure">
-        <img alt="Abstract light through smoke" src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='1600' height='900'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%239bd8ff'/><stop offset='1' stop-color='%23c9ff8f'/></linearGradient></defs><rect width='100%' height='100%' fill='%230f1117'/><circle cx='1200' cy='200' r='600' fill='url(%23g)' opacity='.32'/><circle cx='300' cy='800' r='500' fill='url(%23g)' opacity='.24'/></svg>">
+        <img alt="Light through smoke — hero cover" src="assets/hero.png">
         <figcaption>Replace with your own hero image: <code>assets/hero.png</code> (1600×900+). Duotone works best.</figcaption>
       </figure>
     </section>
@@ -187,7 +200,7 @@
       </div>
 
       <figure class="reveal">
-        <img alt="Coral-like network metaphor" src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='1400' height='800'><rect width='100%' height='100%' fill='%230f1117'/><g opacity='.9'><circle cx='300' cy='420' r='140' fill='none' stroke='%23a3e635' stroke-width='1.4' /><circle cx='430' cy='360' r='90' fill='none' stroke='%2360a5fa' stroke-width='1.2'/><circle cx='540' cy='500' r='120' fill='none' stroke='%23a3e635' stroke-width='1.2'/><circle cx='760' cy='420' r='170' fill='none' stroke='%2360a5fa' stroke-width='1.2'/><circle cx='980' cy='480' r='120' fill='none' stroke='%23a3e635' stroke-width='1.2'/><circle cx='1120' cy='360' r='90' fill='none' stroke='%2360a5fa' stroke-width='1.2'/></g></svg>">
+        <img alt="Abstract reef clarity — mid article" src="assets/reef.png" loading="lazy" decoding="async"><svg xmlns='http://www.w3.org/2000/svg' width='1400' height='800'><rect width='100%' height='100%' fill='%230f1117'/><g opacity='.9'><circle cx='300' cy='420' r='140' fill='none' stroke='%23a3e635' stroke-width='1.4' /><circle cx='430' cy='360' r='90' fill='none' stroke='%2360a5fa' stroke-width='1.2'/><circle cx='540' cy='500' r='120' fill='none' stroke='%23a3e635' stroke-width='1.2'/><circle cx='760' cy='420' r='170' fill='none' stroke='%2360a5fa' stroke-width='1.2'/><circle cx='980' cy='480' r='120' fill='none' stroke='%23a3e635' stroke-width='1.2'/><circle cx='1120' cy='360' r='90' fill='none' stroke='%2360a5fa' stroke-width='1.2'/></g></svg>">
         <figcaption>Replace with <code>assets/reef.png</code>. Clear water beats fog: when you can see, you can steer.</figcaption>
       </figure>
 
@@ -196,6 +209,11 @@
       <p class="reveal">Think of a coral reef. It isn’t safe because nothing bites. It’s safe because the water is clear, the traffic patterns exist, and the system knows how to route energy without collapsing. In murky water, seaweed looks like a shark and panic becomes policy. Monsters love fog.</p>
 
       <p class="reveal">“But some truths start fires.” Correct. So build fire codes—not blindfolds. Ventilation. Fire doors. Drills. The civic versions are obvious: norms for strong disagreement that still treats people as people; rooms where you can try an idea in draft without losing your life; moderators who use tweezers, not sledgehammers. Fire exists either way. Your choice is between stoves and wildfires.</p>
+
+      <figure class="optional reveal">
+        <img alt="Quiet corridor with a fire door and vents" src="assets/fire-codes.png" loading="lazy" decoding="async">
+        <figcaption>Optional figure: fire codes—not blindfolds. Add <code>assets/fire-codes.png</code> to enable.</figcaption>
+      </figure>
 
       <p class="reveal">Opacity breeds a black market: gossip credit, resentment loans, sly little banknotes of “receipts.” Interest compounds. There is no debt jubilee for what we refuse to face. Transparency is painful austerity at first—and then it’s freedom.</p>
 
@@ -220,6 +238,11 @@
 
       <p class="reveal">A quick thought experiment: imagine, for one day, we could all hear the unedited thoughts of the people closest to us. The first hour? Yikes. Porcelain breaks. The second hour? Triage—finally the overdue talks. By dinner, a strange clarity settles. Patterns surface. Petty storms pass. By night, the map looks truer: rough, usable, alive. Terrifying? Sure. But terror’s a bad reason to keep living in a theater set.</p>
 
+      <figure class="optional reveal">
+        <img alt="Open window casting pale daylight onto a dark wall" src="assets/window.png" loading="lazy" decoding="async">
+        <figcaption>Optional figure: open window. Add <code>assets/window.png</code> to enable.</figcaption>
+      </figure>
+
       <p class="reveal">We don’t need full telepathy. We need bigger windows and thicker beams. Rooms where minds can undress their worries and leave with their dignity intact. It’s not utopia; it’s maintenance.</p>
 
       <p class="reveal">Kindness still matters. It’s the oil that keeps rough gears from sparking. But kindness without truth is frosting on a cracked cake: pretty, then collapse. Scrape, bake, frost later. Celebration after structure.</p>
@@ -239,6 +262,9 @@
   </main>
 
   <footer>
+    <p><strong>Soundtrack.</strong> Place an MP3 at <code>assets/ambient.mp3</code> — a low, warm drone ~5–15 min loop works best. Click “Play soundtrack” above to start it manually.</p>
+    <p><strong>Images.</strong> Replace inline SVG placeholders with your own images in <code>assets/</code>. Aim for subdued duotones and soft texture. Alt text matters.</p>
+    <p><strong>Performance.</strong> Background animation pauses if you disable it, or if the reader prefers reduced motion.</p>
   </footer>
 
   <!-- Ambient audio (user gesture required to play) -->
@@ -266,79 +292,27 @@
       } catch(err){ console.warn('Audio play error', err); }
     });
 
-    // --- Lightweight WebGL shader background ---
-    const canvas = document.getElementById('shader-canvas');
-    const gl = canvas.getContext('webgl', {antialias:false, depth:false, stencil:false, premultipliedAlpha:false});
-    let shaderOn = false; 
-    const toggleShaderBtn = document.getElementById('toggle-shader');
-    toggleShaderBtn.setAttribute('aria-pressed', shaderOn);
-    toggleShaderBtn.textContent = shaderOn ? 'Background: on' : 'Background: off';
-    toggleShaderBtn.addEventListener('click', ()=>{
-      shaderOn = !shaderOn; toggleShaderBtn.setAttribute('aria-pressed', shaderOn); toggleShaderBtn.textContent = shaderOn ? 'Background: on' : 'Background: off';
-      if (shaderOn) requestAnimationFrame(render); else cancelAnimationFrame(rafId);
+    // Optional visuals toggle
+    const toggleOptionalBtn = document.getElementById('toggle-optional');
+    toggleOptionalBtn?.addEventListener('click', ()=>{
+      document.body.classList.toggle('show-optional');
+      const on = document.body.classList.contains('show-optional');
+      toggleOptionalBtn.textContent = `Optional visuals: ${on ? 'on' : 'off'}`;
+      toggleOptionalBtn.setAttribute('aria-pressed', String(on));
     });
 
-    // Resize canvas to device pixels
-    function fit(){
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const w = canvas.clientWidth = innerWidth;
-      const h = canvas.clientHeight = innerHeight;
-      canvas.width = Math.floor(w * dpr);
-      canvas.height = Math.floor(h * dpr);
-      if (gl) gl.viewport(0,0,canvas.width, canvas.height);
-    }
-    addEventListener('resize', fit, {passive:true}); fit();
+    // Paper texture toggle
+    const togglePaperBtn = document.getElementById('toggle-paper');
+    togglePaperBtn?.addEventListener('click', ()=>{
+      document.body.classList.toggle('with-paper');
+      const on = document.body.classList.contains('with-paper');
+      togglePaperBtn.textContent = `Paper texture: ${on ? 'on' : 'off'}`;
+      togglePaperBtn.setAttribute('aria-pressed', String(on));
+    }); toggleAudioBtn.textContent = 'Pause soundtrack'; toggleAudioBtn.setAttribute('aria-pressed','true'); }
+        else { audio.pause(); toggleAudioBtn.textContent = 'Play soundtrack'; toggleAudioBtn.setAttribute('aria-pressed','false'); }
+      } catch(err){ console.warn('Audio play error', err); }
+    });
 
-    let program, rafId, u_time, u_resolution, u_intensityLoc, start=performance.now();
-    function compile(type, src){ const s=gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw gl.getShaderInfoLog(s); return s; }
-    function link(vs, fs){ const p=gl.createProgram(); gl.attachShader(p,vs); gl.attachShader(p,fs); gl.linkProgram(p); if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw gl.getProgramInfoLog(p); return p; }
-
-    const vs = `attribute vec2 a_position; void main(){ gl_Position = vec4(a_position,0.0,1.0); }`;
-    const fs = `precision highp float; uniform vec2 u_resolution; uniform float u_time; uniform float u_intensity; 
-      vec3 pal(float t){ return 0.5 + 0.5*cos(6.28318*(vec3(0.0,0.33,0.67)+t)); }
-      void main(){
-        vec2 uv = gl_FragCoord.xy / u_resolution.xy;
-        vec2 p = (uv - .5) * vec2(u_resolution.x/u_resolution.y, 1.0);
-        float t = u_time*0.06;
-        float r = length(p);
-        float a = atan(p.y, p.x);
-        float v = sin(3.0*a + t*2.0) + cos(6.0*r - t*4.0);
-        float m = smoothstep(0.0,1.0,0.5 + 0.5*sin(t + v));
-        vec3 col = mix(vec3(0.05,0.07,0.12), pal(v*0.10 + t*0.10), m);
-        col = mix(col, vec3(0.0), 1.0 - u_intensity);
-        gl_FragColor = vec4(col, 1.0);
-      }`;
-
-    const quad = new Float32Array([
-      -1,-1, 1,-1, -1,1,  -1,1, 1,-1, 1,1
-    ]);
-
-    let intensity = 0.8; const range = document.getElementById('intensity');
-    range.addEventListener('input', ()=>{ intensity = parseFloat(range.value) || 0; });
-
-    if (gl){
-      try {
-        program = link(compile(gl.VERTEX_SHADER, vs), compile(gl.FRAGMENT_SHADER, fs));
-        gl.useProgram(program);
-        const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, quad, gl.STATIC_DRAW);
-        const loc = gl.getAttribLocation(program, 'a_position'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-        u_time = gl.getUniformLocation(program, 'u_time');
-        u_resolution = gl.getUniformLocation(program, 'u_resolution');
-        u_intensityLoc = gl.getUniformLocation(program, 'u_intensity');
-      } catch(err){ console.warn('WebGL init failed', err); shaderOn=false; toggleShaderBtn.textContent='Background: off'; }
-    }
-
-    function render(now){
-      if (!shaderOn || !gl){ return; }
-      const t = (now - start) / 1000;
-      gl.uniform1f(u_time, t);
-      gl.uniform2f(u_resolution, canvas.width, canvas.height);
-      gl.uniform1f(u_intensityLoc, intensity);
-      gl.drawArrays(gl.TRIANGLES, 0, 6);
-      rafId = requestAnimationFrame(render);
-    }
-
-    if (shaderOn) requestAnimationFrame(render);
-  </script>
+    </script>
 </body>
 </html>
