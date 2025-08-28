@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Let’s Not Pretend — an essay about truth, safety, and daylight</title>
+  <meta name="description" content="An essay about truth, safety, daylight, and the courage to build for heat rather than pretend the fire away." />
+  <meta property="og:title" content="Let’s Not Pretend" />
+  <meta property="og:description" content="An essay about truth, safety, daylight, and the courage to build for heat." />
+  <meta property="og:type" content="article" />
+  <meta name="theme-color" content="#0f1117" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --bg-2: #0b0d12;
+      --fg: #e6e8ee;
+      --muted: #a9afc3;
+      --accent: #a3e635; /* lime */
+      --accent-2: #60a5fa; /* blue */
+      --ink: #10131a;
+      --maxw: 80ch;
+    }
+    @media (prefers-color-scheme: light) {
+      :root { --bg:#ffffff; --bg-2:#f6f7fb; --fg:#10131a; --muted:#5b6174; --ink:#ffffff; }
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--fg); background: radial-gradient(1200px 800px at 70% -10%, rgba(96,165,250,.06), transparent 60%),
+      radial-gradient(900px 500px at 10% 10%, rgba(163,230,53,.05), transparent 50%), var(--bg);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+      line-height:1.7; letter-spacing:.02em;
+    }
+    .shader-wrap {position:fixed; inset:0; z-index:-1;}
+    #shader-canvas{width:100%; height:100%; display:block; filter:contrast(105%) saturate(110%);}    
+
+    header.site{
+      position:sticky; top:0; backdrop-filter: blur(8px); background:linear-gradient(to bottom, rgba(15,17,23,.65), rgba(15,17,23,.2) 70%, transparent);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      z-index:10;
+    }
+    .bar{display:flex; align-items:center; justify-content:space-between; gap:1rem; max-width:1100px; margin:0 auto; padding:.75rem 1rem;}
+    .brand{font-weight:800; letter-spacing:.04em; text-transform:uppercase; font-size:.8rem; color:var(--muted)}
+    .controls{display:flex; align-items:center; gap:.5rem; flex-wrap:wrap}
+    .btn, .chip {
+      -webkit-tap-highlight-color: transparent;
+      appearance:none; border:1px solid rgba(255,255,255,.12); color:var(--fg); background:rgba(255,255,255,.04);
+      padding:.55rem .8rem; border-radius:999px; cursor:pointer; font-size:.85rem; line-height:1; font-weight:600;
+      transition:transform .12s ease, background .2s ease, border-color .2s ease; user-select:none;
+    }
+    .btn:hover{transform:translateY(-1px); background:rgba(255,255,255,.08)}
+    .btn[aria-pressed="true"]{background:linear-gradient(135deg, rgba(163,230,53,.25), rgba(96,165,250,.25)); border-color:rgba(255,255,255,.18)}
+    .chip{padding:.35rem .6rem; font-weight:700; font-size:.75rem; opacity:.9}
+
+    main{max-width:1100px; margin:0 auto; padding:2.5rem 1rem 6rem 1rem}
+    .hero{display:grid; grid-template-columns: 1fr; gap:1.5rem; align-items:end; margin-top:2rem}
+    .hero h1{
+      font-family:"Playfair Display", Georgia, serif; font-size: clamp(2.3rem, 5vw, 5rem); line-height:1.1; margin:.25rem 0 .5rem 0;
+      letter-spacing:.02em; background: linear-gradient(120deg, var(--fg), #9bd8ff 30%, #c9ff8f 70%, var(--fg)); -webkit-background-clip:text; background-clip:text; color:transparent;
+      text-wrap:balance;
+    }
+    .dek{font-size:clamp(1rem, 2.3vw, 1.35rem); color:var(--muted); max-width:65ch}
+    .meta{display:flex; gap:.5rem; align-items:center; flex-wrap:wrap}
+
+    .hero-figure{position:relative; border-radius:24px; overflow:hidden; isolation:isolate; box-shadow: 0 10px 40px rgba(0,0,0,.25);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.12);
+    }
+    .hero-figure img{width:100%; height: min(55vh, 560px); object-fit:cover; display:block; filter:grayscale(20%) contrast(105%)}
+    .hero-figure::after{content:""; position:absolute; inset:0; background:radial-gradient(60% 40% at 80% 10%, rgba(163,230,53,.14), transparent 60%), radial-gradient(70% 50% at 20% 90%, rgba(96,165,250,.14), transparent 60%); mix-blend-mode:soft-light; pointer-events:none} 
+
+    article{max-width:var(--maxw); margin: 2.5rem auto 0 auto; background: linear-gradient(180deg, rgba(0,0,0,.48), rgba(0,0,0,.38)); border:1px solid rgba(255,255,255,.08); border-radius: 20px; padding: clamp(1rem, 2.2vw, 1.75rem) clamp(1rem, 3vw, 2rem); box-shadow: 0 10px 30px rgba(0,0,0,.25);} 
+    article p{font-size:clamp(1rem, 1.4vw, 1.15rem); margin:1rem 0; opacity:1} 
+    article .mantra{ position:relative; display:grid; gap:.6rem; margin:1.25rem 0 1.75rem 0; padding: clamp(.9rem, 2.4vw, 1.2rem) clamp(1rem, 3vw, 1.4rem); border-radius:16px; border:1px solid rgba(255,255,255,.14); background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); box-shadow: inset 0 1px 0 rgba(255,255,255,.06); }
+    article .mantra::before{ content:""; position:absolute; inset:-1px auto -1px -1px; width:4px; border-radius:16px 0 0 16px; background: linear-gradient(180deg, var(--accent-2), var(--accent)); opacity:.7; }
+    article .mantra .breath{ display:flex; align-items:baseline; justify-content:center; gap:.6rem; flex-wrap:wrap; font-size:clamp(1.05rem, 2vw, 1.25rem); text-align:center; }
+    article .mantra .label{ font-weight:800; letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; color:var(--muted); }
+    article .mantra .value{ font-weight:700; }
+    article .mantra .in .value{ color: var(--accent-2); }
+    article .mantra .out .value{ color: var(--accent); }
+    @media (prefers-color-scheme: light) { article .mantra{ background: rgba(0,0,0,.035); border-color: rgba(0,0,0,.08);} }
+    @media (prefers-reduced-motion: no-preference){ @keyframes breathPulse { 0%,100%{opacity:1} 50%{opacity:.85} } article .mantra .in .value{ animation: breathPulse 6s ease-in-out infinite; } article .mantra .out .value{ animation: breathPulse 6s ease-in-out infinite; animation-delay:3s; } }
+
+    .section-title{font-family:"Playfair Display", Georgia, serif; font-size: clamp(1.4rem, 2.8vw, 2.1rem); margin:2.5rem 0 .5rem 0}
+    .divider{height:1px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent); margin:2rem 0}
+
+    /* Reveal on scroll */
+    .reveal{opacity:0; transform: translateY(12px); transition: all .8s cubic-bezier(.2,.65,.2,1)}
+    .reveal.in{opacity:1; transform:none}
+
+    /* Pullquotes */
+    .callout{border-left:3px solid rgba(163,230,53,.6); padding:.25rem 0 .25rem 1rem; margin:1.5rem 0; color:var(--fg); font-weight:600}
+
+    /* Figures */
+    figure{margin:2rem 0;}
+    figure img{width:100%; height:auto; border-radius:18px; box-shadow:0 8px 28px rgba(0,0,0,.25)}
+    figcaption{font-size:.9rem; color:var(--muted); margin-top:.5rem}
+
+    /* Footer */
+    footer{max-width:1100px; margin:3rem auto; padding:0 1rem 5rem 1rem; color:var(--muted)}
+
+    @media (prefers-color-scheme: light) { article { background: rgba(255,255,255,.92); border-color: rgba(0,0,0,.06); box-shadow: 0 10px 30px rgba(0,0,0,.08);} }
+
+    /* Print */
+    @media print { .shader-wrap, header.site, .hero-figure::after, #shader-canvas, .controls { display:none !important } body{background:#fff; color:#111} a{color:#111} }
+  </style>
+</head>
+<body>
+  <div class="shader-wrap" aria-hidden="true">
+    <canvas id="shader-canvas"></canvas>
+  </div>
+
+  <header class="site">
+    <div class="bar">
+      <div class="brand">Let’s Not Pretend</div>
+      <div class="controls">
+        <span class="chip" id="motion-chip" hidden>Reduced motion</span>
+        <button class="btn" id="toggle-shader" aria-pressed="true" aria-label="Toggle animated background">Background: on</button>
+        <label class="btn" for="intensity" title="Background intensity">
+          <span style="font-weight:700; margin-right:.4rem">Glow</span>
+          <input id="intensity" type="range" min="0" max="1" step="0.01" value="0.3" style="vertical-align:middle">
+        </label>
+        <button class="btn" id="toggle-audio" aria-pressed="false" aria-label="Play ambient soundtrack">Play soundtrack</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="chip">Essay</p>
+        <h1>“let’s not pretend we’re any safer for not knowing what people really think.”</h1>
+        <p class="dek">Quiet isn’t peace; it’s pressure with the alerts turned off. This is a field guide to daylight: how to name, air, follow, and change the things we’d rather hide—and to build for heat instead of praying the fire away.</p>
+        <div class="meta" aria-label="metadata">
+          <span class="chip" style="background:rgba(163,230,53,.05); border-color:rgba(163,230,53,.3)">Truth</span>
+          <span class="chip" style="background:rgba(96,165,250,.15); border-color:rgba(96,165,250,.3)">Resilience</span>
+          <span class="chip" style="background:rgba(255,255,255,.05)">~ 8 min read</span>
+        </div>
+      </div>
+      <figure class="hero-figure">
+        <img alt="Abstract light through smoke" src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='1600' height='900'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%239bd8ff'/><stop offset='1' stop-color='%23c9ff8f'/></linearGradient></defs><rect width='100%' height='100%' fill='%230f1117'/><circle cx='1200' cy='200' r='600' fill='url(%23g)' opacity='.32'/><circle cx='300' cy='800' r='500' fill='url(%23g)' opacity='.24'/></svg>">
+        <figcaption>Replace with your own hero image: <code>assets/hero.png</code> (1600×900+). Duotone works best.</figcaption>
+      </figure>
+    </section>
+
+    <article>
+      <p class="callout reveal">That lullaby—the one that says the quiet is safety—always ends in a mess on the floor.</p>
+
+      <p class="reveal">That’s the lullaby of brittle places: hush the room, dim the lamps, tuck the sharp knives in the drawer, and call the quiet “peace.” But quiet isn’t peace; it’s pressure that hasn’t found a voice yet. Unsaid thoughts don’t evaporate. They ferment. Lids rattle. Jars crack. Then we act surprised at the mess on the floor.</p>
+
+      <div class="mantra reveal">
+        <div class="breath in"><span class="label">Breathe in</span><span class="value">concealment.</span></div>
+        <div class="breath out"><span class="label">Breathe out</span><span class="value">consequence.</span></div>
+      </div>
+
+      <p class="reveal">We’ve gotten good at polite costume parties. Masks on, smiles lacquered, no sudden moves. Meanwhile, the back rooms are crowded with whispers, and the walls are thin. We equate the absence of argument with the presence of safety, the way a family assumes the house is sturdy because nobody mentions the crack in the ceiling. Paint doesn’t hold up the roof.</p>
+
+      <p class="reveal">Let’s be blunt: hiding what we think is like shoving damp clothes into a closet. You may avoid a scene today, but you’re cultivating mold. Smell travels. It always does.</p>
+
+      <div class="mantra reveal">
+        <div class="breath in"><span class="label">Breathe in</span><span class="value">denial.</span></div>
+        <div class="breath out"><span class="label">Breathe out</span><span class="value">detonation.</span></div>
+      </div>
+
+      <p class="reveal">There are moments for gentleness. Bedtime, grief, the shaky first step after a fall. Not every truth needs to be shouted like a town crier. But confusing kindness with avoidance is a category mistake. Kindness is a tone. Truth is a structure. You can sing in a soft voice while still telling the actual story.</p>
+
+      <h2 class="section-title reveal">A working mantra</h2>
+      <p class="reveal"><strong>Name it.</strong> A thought is a weather report, not a lifetime sentence. “I feel envy,” “I fear this,” “I believe that”—labels on jars. If people get punished for labels, they’ll hide the jars and serve the contents later.</p>
+      <p class="reveal"><strong>Air it.</strong> Open a window. No, not a coliseum of insults; a sturdy table where the real thing can be laid out. The point isn’t cruelty. The point is daylight.</p>
+      <p class="reveal"><strong>Follow it.</strong> Where did this idea grow? Which memories, which incentives, which fears fed it? Pull the plant up by the roots, not just the leaves. Once the roots are mapped, you know what soil to amend.</p>
+      <p class="reveal"><strong>Change it.</strong> Cook it or compost it. Some ideas soften with heat and become food. Some belong in the heap to break down and feed something better. Either way, it goes somewhere honest.</p>
+
+      <div class="divider"></div>
+
+      <h2 class="section-title reveal">Switch angles</h2>
+      <p class="reveal"><em>The leader:</em> “Silence keeps the streets calm.” No—silence just hides the storm gauges. Your city is only as safe as the risks you can see in time to move people uphill.</p>
+      <p class="reveal"><em>The neighbor:</em> “I don’t want to know what they think; it’ll ruin dinner.” Then you’ve traded one awkward meal for a ruined friendship six months from now. Choose the small fire you can tend over the house fire you can’t.</p>
+      <p class="reveal"><em>The builder:</em> “If the foundation is crooked, the upstairs gives you headaches.” Our shared life is a building. Pretending the bubble is centered doesn’t make the wall straight. Gravity is rude like that.</p>
+      <p class="reveal"><em>The activist:</em> “Words are harm.” Sometimes. Often, words are the pipe that carries pressure away from fists. Cap the pipe, and the pressure finds a more dramatic exit.</p>
+      <p class="reveal"><em>The parent:</em> “I need to protect my kid from bad ideas.” Yes. Protection is not a blackout curtain; it’s teaching how to handle hot pans. Burns happen. Skill limits the damage.</p>
+
+      <div class="mantra reveal">
+        <div class="breath in"><span class="label">Breathe in</span><span class="value">resistance.</span></div>
+        <div class="breath out"><span class="label">Breathe out</span><span class="value">resilience.</span></div>
+      </div>
+
+      <figure class="reveal">
+        <img alt="Coral-like network metaphor" src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='1400' height='800'><rect width='100%' height='100%' fill='%230f1117'/><g opacity='.9'><circle cx='300' cy='420' r='140' fill='none' stroke='%23a3e635' stroke-width='1.4' /><circle cx='430' cy='360' r='90' fill='none' stroke='%2360a5fa' stroke-width='1.2'/><circle cx='540' cy='500' r='120' fill='none' stroke='%23a3e635' stroke-width='1.2'/><circle cx='760' cy='420' r='170' fill='none' stroke='%2360a5fa' stroke-width='1.2'/><circle cx='980' cy='480' r='120' fill='none' stroke='%23a3e635' stroke-width='1.2'/><circle cx='1120' cy='360' r='90' fill='none' stroke='%2360a5fa' stroke-width='1.2'/></g></svg>">
+        <figcaption>Replace with <code>assets/reef.png</code>. Clear water beats fog: when you can see, you can steer.</figcaption>
+      </figure>
+
+      <p class="reveal">Minds learn by bumping into the world. Call it conscience, call it calibration—it needs friction. If you only meet padded corners, your sense of direction atrophies. You feel tranquil because nothing challenges you; you’re fragile because nothing strengthened you.</p>
+
+      <p class="reveal">Think of a coral reef. It isn’t safe because nothing bites. It’s safe because the water is clear, the traffic patterns exist, and the system knows how to route energy without collapsing. In murky water, seaweed looks like a shark and panic becomes policy. Monsters love fog.</p>
+
+      <p class="reveal">“But some truths start fires.” Correct. So build fire codes—not blindfolds. Ventilation. Fire doors. Drills. The civic versions are obvious: norms for strong disagreement that still treats people as people; rooms where you can try an idea in draft without losing your life; moderators who use tweezers, not sledgehammers. Fire exists either way. Your choice is between stoves and wildfires.</p>
+
+      <p class="reveal">Opacity breeds a black market: gossip credit, resentment loans, sly little banknotes of “receipts.” Interest compounds. There is no debt jubilee for what we refuse to face. Transparency is painful austerity at first—and then it’s freedom.</p>
+
+      <div class="mantra reveal">
+        <div class="breath in"><span class="label">Breathe in</span><span class="value">exposure.</span></div>
+        <div class="breath out"><span class="label">Breathe out</span><span class="value">adaptation.</span></div>
+      </div>
+
+      <p class="reveal">We also have to admit the world ahead won’t be a monoculture of minds. Different histories, different habits, and soon enough, different tools braided into thought. The more varied the orchestra, the more crucial the sheet music and the rehearsal. Not to force a single tune, but to keep the brass from drowning the strings and the drummer from calling it done at the first chorus.</p>
+
+      <h2 class="section-title reveal">Design for a grown‑up honesty</h2>
+      <p class="reveal"><strong>1) Agreements about how we talk, not just what we like to hear.</strong> Think rules of the road: right-of-way, turn signals, “slow down in rain.” No one likes signs until the first crash.</p>
+      <p class="reveal"><strong>2) Status for public revision.</strong> Make “I changed my mind” a badge, not a bruise. Keep a visible trail of updates. That’s how trust grows: not perfection, but repair.</p>
+      <p class="reveal"><strong>3) Ways to discuss ideas without turning people into targets.</strong> Masks for the performance, names for the responsibility. You want candor? Give it a porch light, not a firing squad.</p>
+      <p class="reveal"><strong>4) Education as inoculation.</strong> Teach how to map an argument, how to steelman before you strike, how to tell the difference between a red flag and a red herring. Give kids oven mitts for thought.</p>
+      <p class="reveal"><strong>5) Rituals for repair.</strong> You will hurt and be hurt. Write the steps beforehand: what an apology contains, when forgiveness is offered, when consequences stick. Mercy with memory; memory with end dates.</p>
+
+      <div class="mantra reveal">
+        <div class="breath in"><span class="label">Breathe in</span><span class="value">structure.</span></div>
+        <div class="breath out"><span class="label">Breathe out</span><span class="value">strength.</span></div>
+      </div>
+
+      <p class="reveal">A quick thought experiment: imagine, for one day, we could all hear the unedited thoughts of the people closest to us. The first hour? Yikes. Porcelain breaks. The second hour? Triage—finally the overdue talks. By dinner, a strange clarity settles. Patterns surface. Petty storms pass. By night, the map looks truer: rough, usable, alive. Terrifying? Sure. But terror’s a bad reason to keep living in a theater set.</p>
+
+      <p class="reveal">We don’t need full telepathy. We need bigger windows and thicker beams. Rooms where minds can undress their worries and leave with their dignity intact. It’s not utopia; it’s maintenance.</p>
+
+      <p class="reveal">Kindness still matters. It’s the oil that keeps rough gears from sparking. But kindness without truth is frosting on a cracked cake: pretty, then collapse. Scrape, bake, frost later. Celebration after structure.</p>
+
+      <div class="mantra reveal">
+        <div class="breath in"><span class="label">Breathe in</span><span class="value">reality.</span></div>
+        <div class="breath out"><span class="label">Breathe out</span><span class="value">responsibility.</span></div>
+      </div>
+
+      <p class="reveal">So let’s retire the bedtime story. We were never safer for not knowing what people really think. We were simply spared the labor of knowing it. Safety comes from contact with what’s real and the capacity to absorb it. Choose the harder path: patch instead of pretend, converse instead of excommunicate, test instead of tranquilize. Turn your circle—friends, team, town—into a place where error signals are welcome and updates are expected. Practice fire drills for disagreement. Hang the evacuation map where everyone can see it. And when the air gets smoky with human complexity, open the windows. Don’t beg the flames to be kind. Build for heat.</p>
+
+      <div class="mantra reveal">
+        <div class="breath in"><span class="label">Breathe in</span><span class="value">truth.</span></div>
+        <div class="breath out"><span class="label">Breathe out</span><span class="value">a future that can handle it.</span></div>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+  </footer>
+
+  <!-- Ambient audio (user gesture required to play) -->
+  <audio id="ambient" preload="none" loop src="assets/ambient.mp3"></audio>
+
+  <script>
+    // Reduced-motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) document.getElementById('motion-chip').hidden = false;
+
+    // Reveal on scroll
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries)=>{
+      for (const e of entries){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }
+    }, {rootMargin: '0px 0px -5% 0px', threshold: .1});
+    revealEls.forEach(el=>io.observe(el));
+
+    // Audio controls
+    const audio = document.getElementById('ambient');
+    const toggleAudioBtn = document.getElementById('toggle-audio');
+    toggleAudioBtn.addEventListener('click', async ()=>{
+      try {
+        if (audio.paused) { await audio.play(); toggleAudioBtn.textContent = 'Pause soundtrack'; toggleAudioBtn.setAttribute('aria-pressed','true'); }
+        else { audio.pause(); toggleAudioBtn.textContent = 'Play soundtrack'; toggleAudioBtn.setAttribute('aria-pressed','false'); }
+      } catch(err){ console.warn('Audio play error', err); }
+    });
+
+    // --- Lightweight WebGL shader background ---
+    const canvas = document.getElementById('shader-canvas');
+    const gl = canvas.getContext('webgl', {antialias:false, depth:false, stencil:false, premultipliedAlpha:false});
+    let shaderOn = false; 
+    const toggleShaderBtn = document.getElementById('toggle-shader');
+    toggleShaderBtn.setAttribute('aria-pressed', shaderOn);
+    toggleShaderBtn.textContent = shaderOn ? 'Background: on' : 'Background: off';
+    toggleShaderBtn.addEventListener('click', ()=>{
+      shaderOn = !shaderOn; toggleShaderBtn.setAttribute('aria-pressed', shaderOn); toggleShaderBtn.textContent = shaderOn ? 'Background: on' : 'Background: off';
+      if (shaderOn) requestAnimationFrame(render); else cancelAnimationFrame(rafId);
+    });
+
+    // Resize canvas to device pixels
+    function fit(){
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = canvas.clientWidth = innerWidth;
+      const h = canvas.clientHeight = innerHeight;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      if (gl) gl.viewport(0,0,canvas.width, canvas.height);
+    }
+    addEventListener('resize', fit, {passive:true}); fit();
+
+    let program, rafId, u_time, u_resolution, u_intensityLoc, start=performance.now();
+    function compile(type, src){ const s=gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw gl.getShaderInfoLog(s); return s; }
+    function link(vs, fs){ const p=gl.createProgram(); gl.attachShader(p,vs); gl.attachShader(p,fs); gl.linkProgram(p); if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw gl.getProgramInfoLog(p); return p; }
+
+    const vs = `attribute vec2 a_position; void main(){ gl_Position = vec4(a_position,0.0,1.0); }`;
+    const fs = `precision highp float; uniform vec2 u_resolution; uniform float u_time; uniform float u_intensity; 
+      vec3 pal(float t){ return 0.5 + 0.5*cos(6.28318*(vec3(0.0,0.33,0.67)+t)); }
+      void main(){
+        vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+        vec2 p = (uv - .5) * vec2(u_resolution.x/u_resolution.y, 1.0);
+        float t = u_time*0.06;
+        float r = length(p);
+        float a = atan(p.y, p.x);
+        float v = sin(3.0*a + t*2.0) + cos(6.0*r - t*4.0);
+        float m = smoothstep(0.0,1.0,0.5 + 0.5*sin(t + v));
+        vec3 col = mix(vec3(0.05,0.07,0.12), pal(v*0.10 + t*0.10), m);
+        col = mix(col, vec3(0.0), 1.0 - u_intensity);
+        gl_FragColor = vec4(col, 1.0);
+      }`;
+
+    const quad = new Float32Array([
+      -1,-1, 1,-1, -1,1,  -1,1, 1,-1, 1,1
+    ]);
+
+    let intensity = 0.8; const range = document.getElementById('intensity');
+    range.addEventListener('input', ()=>{ intensity = parseFloat(range.value) || 0; });
+
+    if (gl){
+      try {
+        program = link(compile(gl.VERTEX_SHADER, vs), compile(gl.FRAGMENT_SHADER, fs));
+        gl.useProgram(program);
+        const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, quad, gl.STATIC_DRAW);
+        const loc = gl.getAttribLocation(program, 'a_position'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+        u_time = gl.getUniformLocation(program, 'u_time');
+        u_resolution = gl.getUniformLocation(program, 'u_resolution');
+        u_intensityLoc = gl.getUniformLocation(program, 'u_intensity');
+      } catch(err){ console.warn('WebGL init failed', err); shaderOn=false; toggleShaderBtn.textContent='Background: off'; }
+    }
+
+    function render(now){
+      if (!shaderOn || !gl){ return; }
+      const t = (now - start) / 1000;
+      gl.uniform1f(u_time, t);
+      gl.uniform2f(u_resolution, canvas.width, canvas.height);
+      gl.uniform1f(u_intensityLoc, intensity);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      rafId = requestAnimationFrame(render);
+    }
+
+    if (shaderOn) requestAnimationFrame(render);
+  </script>
+</body>
+</html>
